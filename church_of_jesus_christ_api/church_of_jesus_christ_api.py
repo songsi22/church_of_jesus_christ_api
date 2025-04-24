@@ -80,6 +80,8 @@ _endpoints = {
     + "/api/orgs/sub-orgs-with-callings?unitNumber={unit}",
     "units": _host("directory") + "/api/v4/units/{parent_unit}",
     "user": _host("directory") + "/api/v4/user",
+    "household": _host("account") + "/api/cmis/householdVisibility", ## added by rew
+
 }
 
 
@@ -231,16 +233,37 @@ class ChurchOfJesusChristAPI(object):
         """
         return self.__session
 
+    ### added by rew
+    @property
+    def user_details_extended(self):
+        """
+        Returns the base user details plus additional info from household visibility
+        """
+        extended = self.__get_JSON(_endpoints["household"], self.__timeout_sec)
+        merged = {**self.__user_details, **extended.get("visibilitySettings", {})}
+        return merged
+
+    ### edited by rew
     @property
     def user_details(self):
-        """
-        Returns the details of the user logged into this session
+        if not self.__user_details:
+            return None
 
-        Returns
+        try:
+            visibility = self.__get_JSON(_endpoints["household"], self.__timeout_sec)
+            # print("<d83d><dc40> visibility response:", visibility)
 
-        .. literalinclude:: ../JSON_schemas/user_details-schema.md
-        """
-        return self.__user_details
+            displayname = visibility.get("visibilitySettings", {}).get("name")
+            # print("✅ extracted name:", displayname)
+
+            merged = {**self.__user_details, "displayname": displayname}
+            # print("<d83e><dde9> merged user_details:", merged)
+
+            return merged
+        except Exception as e:
+            # print(f"⚠️ Warning: couldn't enrich user_details with name: {e}")
+            return self.__user_details
+
 
     @property
     def org_id(self):
