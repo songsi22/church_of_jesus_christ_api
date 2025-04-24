@@ -147,7 +147,7 @@ class ChurchOfJesusChristAPI(object):
         # Does lcr and directory login stuff
         self.__session.get(_host("lcr"))
         self.__session.get(_host("directory"))
-
+        self.__session.get(_host("account")) ## added by rew
         self.__user_details = self.__get_JSON(_endpoints["user"], timeout_sec)
 
         # This fails if user doesn't have LCR access
