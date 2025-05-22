@@ -254,7 +254,7 @@ class ChurchOfJesusChristAPI(object):
             # print("<d83d><dc40> visibility response:", visibility)
 
             displayname = visibility.get("visibilitySettings", {}).get("name")
-            # print("✅ extracted name:", displayname)
+            print("✅ extracted name:", displayname)
 
             merged = {**self.__user_details, "displayname": displayname}
             # print("<d83e><dde9> merged user_details:", merged)
