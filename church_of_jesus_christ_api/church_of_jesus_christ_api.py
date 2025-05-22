@@ -253,10 +253,10 @@ class ChurchOfJesusChristAPI(object):
             visibility = self.__get_JSON(_endpoints["household"], self.__timeout_sec)
             # print("<d83d><dc40> visibility response:", visibility)
 
-            displayname = visibility.get("visibilitySettings", {}).get("name")
-            print("✅ extracted name:", displayname)
+            displayName = visibility.get("visibilitySettings", {}).get("name")
+            # print("✅ extracted name:", displayName)
 
-            merged = {**self.__user_details, "displayname": displayname}
+            merged = {**self.__user_details, "displayName": displayName}
             # print("<d83e><dde9> merged user_details:", merged)
 
             return merged
