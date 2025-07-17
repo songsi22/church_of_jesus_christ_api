@@ -13,7 +13,7 @@ README = (HERE / "README.rst").read_text()
 
 # This call to setup() does all the work
 setup(
-    name="church_of_jesus_christ_api",
+    name="church_of_jesus_christ_api-forked",
     version=__version__,
     description="Get data from churchofjesuschrist.org",
     long_description=README,
